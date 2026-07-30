@@ -38,7 +38,7 @@ mkdirSync(outDir, { recursive: true });
 
 const browser = await chromium.launch({
   headless: true,
-  args: ['--use-gl=angle', '--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist', '--force-device-scale-factor=1'],
+  args: ['--use-gl=angle', `--use-angle=${process.platform === 'darwin' ? 'metal' : 'vulkan'}`, '--enable-gpu', '--ignore-gpu-blocklist', '--force-device-scale-factor=1'],
 });
 const page = await browser.newPage({ viewport: { width: args.width, height: args.height }, deviceScaleFactor: 1 });
 

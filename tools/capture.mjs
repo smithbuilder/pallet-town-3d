@@ -138,7 +138,9 @@ const browser = await chromium.launch({
     // either fails outright or falls back to a software path whose output
     // does not match what a player sees.
     '--use-gl=angle',
-    '--use-angle=metal',
+    // ANGLE backend is per-OS: Metal exists only on macOS; elsewhere Vulkan
+    // keeps the real-GPU path instead of a software fallback.
+    `--use-angle=${process.platform === 'darwin' ? 'metal' : 'vulkan'}`,
     '--enable-gpu',
     '--enable-unsafe-webgpu',
     '--ignore-gpu-blocklist',
